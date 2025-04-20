@@ -14,7 +14,7 @@ module.exports = {
     env_production: {
       NODE_ENV: "production"
     },
-    interpreter: "node@22.13.1",
+    interpreter: "node@22.14.0",
   }],
   deploy: {
     production: {
@@ -23,7 +23,7 @@ module.exports = {
       "ref": "origin/prod",
       "repo": "https://github.com/keldaanCommunity/pokemonAutoChess.git",
       "path": "/home/deploy",
-      "post-deploy": "npm run build"
+      "post-deploy": "npm run assetpack && npm run build"
     }
   }
 }

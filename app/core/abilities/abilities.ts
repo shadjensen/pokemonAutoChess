@@ -8721,6 +8721,7 @@ export class PsychoBoostStrategy extends AbilityStrategy {
   ) {
     super.process(pokemon, board, target, crit, true)
     const damage = 150
+    let targetsHit = 0
     for (const positionX of [
       target.positionX - 1,
       target.positionX,
@@ -8732,7 +8733,7 @@ export class PsychoBoostStrategy extends AbilityStrategy {
           positionX: tg.positionX,
           positionY: tg.positionY
         })
-        tg.handleSpecialDamage(
+        const { takenDamage } = tg.handleSpecialDamage(
           damage,
           board,
           AttackType.SPECIAL,
@@ -8740,9 +8741,15 @@ export class PsychoBoostStrategy extends AbilityStrategy {
           crit,
           true
         )
-        pokemon.addAbilityPower(-20, pokemon, 0, false)
+
+        //only reduce AP if a target is actually hit
+        if (takenDamage > 0) {
+          targetsHit++
+        }
       }
     }
+
+    pokemon.addAbilityPower(-20 * targetsHit, pokemon, 0, false)
   }
 }
 
